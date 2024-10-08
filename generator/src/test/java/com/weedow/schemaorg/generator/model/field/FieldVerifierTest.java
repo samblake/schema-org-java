@@ -9,7 +9,7 @@ class FieldVerifierTest {
     @Test
     void equalsContract() {
         EqualsVerifier
-                .forPackage(getClass().getPackageName())
+                .forPackage(getClass().getPackage().getName())
                 .except(FieldUtils.class)
                 .verify();
     }
@@ -17,7 +17,7 @@ class FieldVerifierTest {
     @Test
     void toStringContract() {
         ToStringVerifier
-                .forPackage(getClass().getPackageName(), false)
+                .forPackage(getClass().getPackage().getName(), false)
                 // Ignore fields that are not present in toString() method, or their toString representation is modified before being added (eg.Supplier fields)
                 .withIgnoredFields(
                         // Accessor

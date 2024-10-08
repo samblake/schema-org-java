@@ -3,10 +3,10 @@ package com.weedow.schemaorg.generator.model.handler;
 import com.weedow.schemaorg.commons.model.JsonLdNode;
 import com.weedow.schemaorg.commons.model.JsonLdNodeImpl;
 import com.weedow.schemaorg.generator.model.BaseType;
-import com.weedow.schemaorg.generator.model.utils.ModelUtils;
 import com.weedow.schemaorg.generator.model.Type;
 import com.weedow.schemaorg.generator.model.jsonld.GraphItem;
 import com.weedow.schemaorg.generator.model.jsonld.SubClassOf;
+import com.weedow.schemaorg.generator.model.utils.ModelUtils;
 
 import java.util.List;
 import java.util.Map;

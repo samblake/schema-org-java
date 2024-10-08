@@ -11,13 +11,16 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.*;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.partOf;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.rangeInclude;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.source;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -86,7 +89,7 @@ class ModelUtilsTest {
         Map<String, Type> schemaDefinitions = new HashMap<>();
 
         GraphItem graphItem = mock(GraphItem.class);
-        when(graphItem.getRangeIncludes()).thenReturn(List.of(rangeInclude("id1"), rangeInclude("id2")));
+        when(graphItem.getRangeIncludes()).thenReturn(Arrays.asList(rangeInclude("id1"), rangeInclude("id2")));
 
         Assertions.assertThat(ModelUtils.getPropertyTypes(schemaDefinitions, graphItem))
                 .extracting("id")
@@ -126,7 +129,7 @@ class ModelUtilsTest {
     @Test
     void getSource() {
         GraphItem graphItem = mock(GraphItem.class);
-        when(graphItem.getSource()).thenReturn(List.of(source("source1"), source("source2")));
+        when(graphItem.getSource()).thenReturn(Arrays.asList(source("source1"), source("source2")));
 
         Assertions.assertThat(ModelUtils.getSource(graphItem)).containsExactly("source1", "source2");
     }
@@ -142,7 +145,7 @@ class ModelUtilsTest {
     @Test
     void getPartOf() {
         GraphItem graphItem = mock(GraphItem.class);
-        when(graphItem.getPartOf()).thenReturn(List.of(partOf("partOf1"), partOf("partOf2")));
+        when(graphItem.getPartOf()).thenReturn(Arrays.asList(partOf("partOf1"), partOf("partOf2")));
 
         Assertions.assertThat(ModelUtils.getPartOf(graphItem)).containsExactly("partOf1", "partOf2");
     }
@@ -199,19 +202,19 @@ class ModelUtilsTest {
 
     private static Stream<Arguments> isSubDataType() {
         return Stream.of(
-                Arguments.of(List.of(new Type("schema:DataType")), true),
-                Arguments.of(List.of(new Type("schema:Boolean")), true),
-                Arguments.of(List.of(new Type("schema:Text")), true),
-                Arguments.of(List.of(new Type("schema:URL")), true),
-                Arguments.of(List.of(new Type("schema:Number")), true),
-                Arguments.of(List.of(new Type("schema:Integer")), true),
-                Arguments.of(List.of(new Type("schema:Float")), true),
-                Arguments.of(List.of(new Type("schema:Date")), true),
-                Arguments.of(List.of(new Type("schema:Time")), true),
-                Arguments.of(List.of(new Type("schema:DateTime")), true),
-                Arguments.of(List.of(new Type("unknown")), false),
+                Arguments.of(Arrays.asList(new Type("schema:DataType")), true),
+                Arguments.of(Arrays.asList(new Type("schema:Boolean")), true),
+                Arguments.of(Arrays.asList(new Type("schema:Text")), true),
+                Arguments.of(Arrays.asList(new Type("schema:URL")), true),
+                Arguments.of(Arrays.asList(new Type("schema:Number")), true),
+                Arguments.of(Arrays.asList(new Type("schema:Integer")), true),
+                Arguments.of(Arrays.asList(new Type("schema:Float")), true),
+                Arguments.of(Arrays.asList(new Type("schema:Date")), true),
+                Arguments.of(Arrays.asList(new Type("schema:Time")), true),
+                Arguments.of(Arrays.asList(new Type("schema:DateTime")), true),
+                Arguments.of(Arrays.asList(new Type("unknown")), false),
                 Arguments.of(Collections.emptyList(), false),
-                Arguments.of(List.of(new Type("schema:Boolean"), new Type("schema:Text")), false)
+                Arguments.of(Arrays.asList(new Type("schema:Boolean"), new Type("schema:Text")), false)
         );
     }
 

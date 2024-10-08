@@ -5,21 +5,20 @@
  */
 package org.schema.model.impl;
 
-import org.schema.model.datatype.Text;
-import org.schema.model.datatype.URL;
-import org.schema.model.datatype.DateTime;
-import org.schema.model.datatype.Date;
+import com.weedow.schemaorg.commons.model.JsonLdFieldTypes;
+import com.weedow.schemaorg.commons.model.JsonLdTypeName;
 import org.schema.model.Action;
 import org.schema.model.CreativeWork;
 import org.schema.model.Event;
-import org.schema.model.PropertyValue;
 import org.schema.model.ImageObject;
-import org.schema.model.Thing;
-import com.weedow.schemaorg.commons.model.JsonLdTypeName;
-import com.weedow.schemaorg.commons.model.JsonLdFieldTypes;
-import java.util.List;
-import org.schema.model.Intangible;
+import org.schema.model.PropertyValue;
 import org.schema.model.Role;
+import org.schema.model.datatype.Date;
+import org.schema.model.datatype.DateTime;
+import org.schema.model.datatype.Text;
+import org.schema.model.datatype.URL;
+
+import java.util.List;
 
 /**
  * Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occurred during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'.<br/><br/>See also [blog post](http://blog.schema.org/2014/06/introducing-role.html).

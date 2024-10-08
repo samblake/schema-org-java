@@ -12,13 +12,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.*;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.comment;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.label;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.partOf;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.source;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.subClassOf;
+import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -46,9 +52,9 @@ class SubDataTypeModelHandlerImplTest {
         when(graphItem.getId()).thenReturn("schema:XPathType");
         when(graphItem.getLabel()).thenReturn(label("en", "XPathType"));
         when(graphItem.getComment()).thenReturn(comment("en", "This is XPathType"));
-        when(graphItem.getPartOf()).thenReturn(List.of(partOf("https://pending.schema.org")));
-        when(graphItem.getSource()).thenReturn(List.of(source("https://github.com/schemaorg/schemaorg/issues/1672")));
-        when(graphItem.getSubClassOf()).thenReturn(List.of(subClassOf("schema:Text")));
+        when(graphItem.getPartOf()).thenReturn(singletonList(partOf("https://pending.schema.org")));
+        when(graphItem.getSource()).thenReturn(singletonList(source("https://github.com/schemaorg/schemaorg/issues/1672")));
+        when(graphItem.getSubClassOf()).thenReturn(singletonList(subClassOf("schema:Text")));
 
         modelHandler.handle(schemaDefinitions, graphItem);
         Assertions.assertThat(schemaDefinitions).isNotEmpty().containsOnlyKeys("schema:Text", "schema:XPathType");
@@ -80,19 +86,19 @@ class SubDataTypeModelHandlerImplTest {
                 .containsExactly(
                         "schema:XPathType", "java.lang.String", "XPathType", "This is XPathType",
                         Collections.emptySet(), Collections.emptySet(),
-                        List.of(schemaDefinitions.get("schema:Text")), null,
+                        Arrays.asList(schemaDefinitions.get("schema:Text")), null,
                         false, Collections.emptyList(),
-                        List.of("https://pending.schema.org"), List.of("https://github.com/schemaorg/schemaorg/issues/1672")
+                        Arrays.asList("https://pending.schema.org"), Arrays.asList("https://github.com/schemaorg/schemaorg/issues/1672")
                 );
     }
 
     private static Stream<Arguments> supports() {
         return Stream.of(
-                Arguments.of(List.of("rdfs:Class"), List.of(subClassOf("schema:Text")), true),
-                Arguments.of(List.of("rdfs:Class"), null, false),
-                Arguments.of(List.of("rdfs:Class", "schema:DataType"), List.of(subClassOf("schema:Text")), false),
-                Arguments.of(List.of("rdfs:Class"), List.of(subClassOf("schema:OtherType")), false),
-                Arguments.of(List.of("schema:OtherType"), List.of(subClassOf("schema:Text")), false)
+                Arguments.of(Arrays.asList("rdfs:Class"), Arrays.asList(subClassOf("schema:Text")), true),
+                Arguments.of(Arrays.asList("rdfs:Class"), null, false),
+                Arguments.of(Arrays.asList("rdfs:Class", "schema:DataType"), Arrays.asList(subClassOf("schema:Text")), false),
+                Arguments.of(Arrays.asList("rdfs:Class"), Arrays.asList(subClassOf("schema:OtherType")), false),
+                Arguments.of(Arrays.asList("schema:OtherType"), Arrays.asList(subClassOf("schema:Text")), false)
         );
     }
 }

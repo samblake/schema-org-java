@@ -8,15 +8,18 @@ import com.weedow.schemaorg.generator.model.jsonld.Source;
 
 import javax.lang.model.SourceVersion;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.weedow.schemaorg.commons.utils.CollectionUtils.createMap;
 
 public final class ModelUtils {
 
     private static final String SCHEMA_DATA_TYPE = "schema:DataType";
 
-    private static final Map<String, String> DATA_TYPE_MAPPING = Map.of(
+    private static final Map<String, String> DATA_TYPE_MAPPING = createMap(
             SCHEMA_DATA_TYPE, "-",
             "schema:Boolean", "java.lang.Boolean",
             "schema:Text", "java.lang.String",
@@ -81,7 +84,7 @@ public final class ModelUtils {
     }
 
     public static String getMethodName(String fieldName, String prefix, String suffix) {
-        return prefix + (!prefix.isBlank() ? capitalize(fieldName) : fieldName) + suffix;
+        return prefix + (!prefix.trim().isEmpty() ? capitalize(fieldName) : fieldName) + suffix;
     }
 
     private static String capitalize(String str) {
@@ -91,4 +94,5 @@ public final class ModelUtils {
     public static String[] getSplitDescription(String description) {
         return description != null ? description.replace("\\n", "<br/>").split("\\n") : null;
     }
+
 }

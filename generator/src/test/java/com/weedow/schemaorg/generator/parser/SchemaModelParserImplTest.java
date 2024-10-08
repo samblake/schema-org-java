@@ -17,13 +17,17 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static java.util.Map.entry;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SchemaModelParserImplTest {
@@ -50,11 +54,11 @@ class SchemaModelParserImplTest {
 
         final GraphItem graphItem = mock(GraphItem.class);
         when(graphItem.getId()).thenReturn(graphItemId);
-        when(graphItem.getTypes()).thenReturn(List.of("rdfs:Class"));
+        when(graphItem.getTypes()).thenReturn(Arrays.asList("rdfs:Class"));
         when(graphItem.getLabel()).thenReturn(label);
 
         final SchemaDefinition schemaDefinition = mock(SchemaDefinition.class);
-        when(schemaDefinition.getGraph()).thenReturn(List.of(graphItem));
+        when(schemaDefinition.getGraph()).thenReturn(Arrays.asList(graphItem));
 
         when(schemaDefinitionReader.read(any(InputStream.class))).thenReturn(schemaDefinition);
 

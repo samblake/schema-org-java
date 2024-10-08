@@ -1,6 +1,9 @@
 package com.weedow.schemaorg.commons.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Implementation of {@link JsonLdNode}.

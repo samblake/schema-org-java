@@ -1,5 +1,6 @@
 package com.weedow.schemaorg.generator;
 
+import com.weedow.schemaorg.commons.utils.IOUtils;
 import com.weedow.schemaorg.generator.core.GeneratorOptions;
 import com.weedow.schemaorg.generator.core.SchemaModelGenerator;
 import com.weedow.schemaorg.generator.parser.ParserOptions;
@@ -12,10 +13,14 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.weedow.schemaorg.commons.utils.IOUtils.readAllBytes;
 
 class SchemaModelGeneratorBuilderTest {
 
@@ -29,7 +34,7 @@ class SchemaModelGeneratorBuilderTest {
 
     @Test
     void generate_specific_models() {
-        List<String> models = List.of("Thing");
+        List<String> models = Arrays.asList("Thing");
 
         generateAndVerify(models);
     }
@@ -48,7 +53,7 @@ class SchemaModelGeneratorBuilderTest {
                     LOG.info("Comparing {} with {}", outputFile, expectedFilePath);
                     try (InputStream resourceAsStream = getClass().getResourceAsStream(expectedFilePath)) {
                         assert resourceAsStream != null;
-                        byte[] expected = resourceAsStream.readAllBytes();
+                        byte[] expected = readAllBytes(resourceAsStream);
                         Assertions.assertThat(outputFile).hasBinaryContent(expected);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -74,9 +79,9 @@ class SchemaModelGeneratorBuilderTest {
             modelCount = 205;
             modelImplCount = 205;
         }
-        Assertions.assertThat(dataMap.get(Path.of("org", "schema", "model", "datatype"))).hasSize(dataTypeCount);
-        Assertions.assertThat(dataMap.get(Path.of("org", "schema", "model"))).hasSize(modelCount);
-        Assertions.assertThat(dataMap.get(Path.of("org", "schema", "model", "impl"))).hasSize(modelImplCount);
+        Assertions.assertThat(dataMap.get(Paths.get("org", "schema", "model", "datatype"))).hasSize(dataTypeCount);
+        Assertions.assertThat(dataMap.get(Paths.get("org", "schema", "model"))).hasSize(modelCount);
+        Assertions.assertThat(dataMap.get(Paths.get("org", "schema", "model", "impl"))).hasSize(modelImplCount);
     }
 
 }

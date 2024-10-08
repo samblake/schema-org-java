@@ -10,14 +10,14 @@ class JsonLDModelVerifierTest {
     void equalsContract() {
         EqualsVerifier
                 .simple()
-                .forPackage(getClass().getPackageName(), true)
+                .forPackage(getClass().getPackage().getName(), true)
                 .verify();
     }
 
     @Test
     void toStringContract() {
         ToStringVerifier
-                .forPackage(getClass().getPackageName(), true)
+                .forPackage(getClass().getPackage().getName(), true)
                 .verify();
     }
 

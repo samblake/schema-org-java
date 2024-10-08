@@ -4,11 +4,14 @@ import com.github.jknack.handlebars.Options;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class ContainsHelperTest {
 
@@ -17,7 +20,7 @@ class ContainsHelperTest {
         Options options = mock(Options.class);
         when(options.param(0, null)).thenReturn("value1");
 
-        ContainsHelper.INSTANCE.apply(List.of("value1", "value2"), options);
+        ContainsHelper.INSTANCE.apply(Arrays.asList("value1", "value2"), options);
 
         verify(options).hash("yes", true);
     }
@@ -27,7 +30,7 @@ class ContainsHelperTest {
         Options options = mock(Options.class);
         when(options.param(0, null)).thenReturn("value3");
 
-        ContainsHelper.INSTANCE.apply(List.of("value1", "value2"), options);
+        ContainsHelper.INSTANCE.apply(Arrays.asList("value1", "value2"), options);
 
         verify(options).hash("no", false);
     }
@@ -37,7 +40,7 @@ class ContainsHelperTest {
         Options options = mock(Options.class);
         when(options.param(0, null)).thenReturn("value1");
 
-        ContainsHelper.INSTANCE.apply(new MyIterable(List.of("value1", "value2")), options);
+        ContainsHelper.INSTANCE.apply(new MyIterable(Arrays.asList("value1", "value2")), options);
 
         verify(options).hash("yes", true);
     }
@@ -47,7 +50,7 @@ class ContainsHelperTest {
         Options options = mock(Options.class);
         when(options.param(0, null)).thenReturn("value3");
 
-        ContainsHelper.INSTANCE.apply(new MyIterable(List.of("value1", "value2")), options);
+        ContainsHelper.INSTANCE.apply(new MyIterable(Arrays.asList("value1", "value2")), options);
 
         verify(options).hash("no", false);
     }

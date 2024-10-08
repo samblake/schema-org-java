@@ -1,16 +1,28 @@
 package com.weedow.schemaorg.generator.reader;
 
-import com.weedow.schemaorg.generator.model.jsonld.*;
+import com.weedow.schemaorg.generator.model.jsonld.ClassItem;
+import com.weedow.schemaorg.generator.model.jsonld.DefaultItem;
+import com.weedow.schemaorg.generator.model.jsonld.GraphItem;
+import com.weedow.schemaorg.generator.model.jsonld.PropertyItem;
+import com.weedow.schemaorg.generator.model.jsonld.SchemaDefinition;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.*;
-import static java.util.Map.entry;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.comment;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.domainInclude;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.label;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.partOf;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.rangeInclude;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.source;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.subClassOf;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.supersededBy;
+import static org.assertj.core.data.MapEntry.entry;
 
 class SchemaDefinitionReaderImplTest {
 
@@ -61,7 +73,7 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 DefaultItem.class,
                                 "schema:OriginalMediaContent",
-                                List.of("schema:MediaManipulationRatingEnumeration"),
+                                Arrays.asList("schema:MediaManipulationRatingEnumeration"),
                                 comment("en",
                                         "Content coded 'as original media content' in a [[MediaReview]], considered in the context of how it was published or shared.\n\n" +
                                                 "For a [[VideoObject]] to be 'original': No evidence the footage has been misleadingly altered or manipulated, though it may contain false or misleading claims.\n\n" +
@@ -70,7 +82,7 @@ class SchemaDefinitionReaderImplTest {
                                                 "For an [[AudioObject]] to be 'original': No evidence the audio has been misleadingly altered or manipulated, though it may contain false or misleading claims.\n"
                                 ),
                                 label("en", "OriginalMediaContent"),
-                                null, null, null, null, List.of(partOf("https://pending.schema.org")), List.of(source("https://github.com/schemaorg/schemaorg/issues/2450"))
+                                null, null, null, null, Arrays.asList(partOf("https://pending.schema.org")), Arrays.asList(source("https://github.com/schemaorg/schemaorg/issues/2450"))
                         )
                 );
 
@@ -82,10 +94,10 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 ClassItem.class,
                                 "schema:StatusEnumeration",
-                                List.of("rdfs:Class"),
+                                Arrays.asList("rdfs:Class"),
                                 comment("en", "Lists or enumerations dealing with status types."),
                                 label("en", "StatusEnumeration"),
-                                null, null, null, List.of(subClassOf("schema:Enumeration")), null, List.of(source("https://github.com/schemaorg/schemaorg/issues/2604"))
+                                null, null, null, Arrays.asList(subClassOf("schema:Enumeration")), null, Arrays.asList(source("https://github.com/schemaorg/schemaorg/issues/2604"))
                         )
                 );
         Assertions.assertThat(filter(schemaDefinition, graphItem -> "schema:URL".equals(graphItem.getId())))
@@ -94,10 +106,10 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 ClassItem.class,
                                 "schema:URL",
-                                List.of("rdfs:Class"),
+                                Arrays.asList("rdfs:Class"),
                                 comment("en", "Data type: URL."),
                                 label("en", "URL"),
-                                null, null, null, List.of(subClassOf("schema:Text")), null, null
+                                null, null, null, Arrays.asList(subClassOf("schema:Text")), null, null
                         )
                 );
         Assertions.assertThat(filter(schemaDefinition, graphItem -> "schema:Person".equals(graphItem.getId())))
@@ -106,10 +118,10 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 ClassItem.class,
                                 "schema:Person",
-                                List.of("rdfs:Class"),
+                                Arrays.asList("rdfs:Class"),
                                 comment("en", "A person (alive, dead, undead, or fictional)."),
                                 label("en", "Person"),
-                                null, null, null, List.of(subClassOf("schema:Thing")), null, List.of(source("http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_rNews"))
+                                null, null, null, Arrays.asList(subClassOf("schema:Thing")), null, Arrays.asList(source("http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_rNews"))
                         )
                 );
 
@@ -122,7 +134,7 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 DefaultItem.class,
                                 "schema:Text",
-                                List.of("rdfs:Class", "schema:DataType"),
+                                Arrays.asList("rdfs:Class", "schema:DataType"),
                                 comment("en", "Data type: Text."),
                                 label("en", "Text"),
                                 null, null, null, null, null, null
@@ -130,7 +142,7 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 DefaultItem.class,
                                 "schema:Date",
-                                List.of("schema:DataType", "rdfs:Class"),
+                                Arrays.asList("schema:DataType", "rdfs:Class"),
                                 comment("en", "A date value in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)."),
                                 label("en", "Date"),
                                 null, null, null, null, null, null
@@ -138,7 +150,7 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 DefaultItem.class,
                                 "schema:Number",
-                                List.of("rdfs:Class", "schema:DataType"),
+                                Arrays.asList("rdfs:Class", "schema:DataType"),
                                 comment("en",
                                         "Data type: Number.\\n\\n" +
                                                 "Usage guidelines:\\n\\n" +
@@ -151,7 +163,7 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 DefaultItem.class,
                                 "schema:Time",
-                                List.of("schema:DataType", "rdfs:Class"),
+                                Arrays.asList("schema:DataType", "rdfs:Class"),
                                 comment("en", "A point in time recurring on multiple days in the form hh:mm:ss[Z|(+|-)hh:mm] (see [XML schema for details](http://www.w3.org/TR/xmlschema-2/#time))."),
                                 label("en", "Time"),
                                 null, null, null, null, null, null
@@ -159,7 +171,7 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 DefaultItem.class,
                                 "schema:Boolean",
-                                List.of("schema:DataType", "rdfs:Class"),
+                                Arrays.asList("schema:DataType", "rdfs:Class"),
                                 comment("en", "Boolean: True or False."),
                                 label("en", "Boolean"),
                                 null, null, null, null, null, null
@@ -167,7 +179,7 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 DefaultItem.class,
                                 "schema:DateTime",
-                                List.of("schema:DataType", "rdfs:Class"),
+                                Arrays.asList("schema:DataType", "rdfs:Class"),
                                 comment("en", "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601)."),
                                 label("en", "DateTime"),
                                 null, null, null, null, null, null
@@ -182,11 +194,11 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 PropertyItem.class,
                                 "schema:season",
-                                List.of("rdf:Property"),
+                                Arrays.asList("rdf:Property"),
                                 comment("en", "A season in a media series."),
                                 label("en", "season"),
-                                List.of(domainInclude("schema:VideoGameSeries"), domainInclude("schema:TVSeries"), domainInclude("schema:RadioSeries")),
-                                List.of(rangeInclude("schema:URL"), rangeInclude("schema:CreativeWorkSeason")),
+                                Arrays.asList(domainInclude("schema:VideoGameSeries"), domainInclude("schema:TVSeries"), domainInclude("schema:RadioSeries")),
+                                Arrays.asList(rangeInclude("schema:URL"), rangeInclude("schema:CreativeWorkSeason")),
                                 supersededBy("schema:containsSeason"),
                                 null, null, null
                         )
@@ -197,11 +209,11 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 PropertyItem.class,
                                 "schema:telephone",
-                                List.of("rdf:Property"),
+                                Arrays.asList("rdf:Property"),
                                 comment("en", "The telephone number."),
                                 label("en", "telephone"),
-                                List.of(domainInclude("schema:Place"), domainInclude("schema:Organization"), domainInclude("schema:ContactPoint"), domainInclude("schema:Person")),
-                                List.of(rangeInclude("schema:Text")),
+                                Arrays.asList(domainInclude("schema:Place"), domainInclude("schema:Organization"), domainInclude("schema:ContactPoint"), domainInclude("schema:Person")),
+                                Arrays.asList(rangeInclude("schema:Text")),
                                 null, null, null, null
                         )
                 );
@@ -211,14 +223,14 @@ class SchemaDefinitionReaderImplTest {
                         Tuple.tuple(
                                 PropertyItem.class,
                                 "schema:governmentBenefitsInfo",
-                                List.of("rdf:Property"),
+                                Arrays.asList("rdf:Property"),
                                 comment("en", "governmentBenefitsInfo provides information about government benefits associated with a SpecialAnnouncement."),
                                 label("en", "governmentBenefitsInfo"),
-                                List.of(domainInclude("schema:SpecialAnnouncement")),
-                                List.of(rangeInclude("schema:GovernmentService")),
+                                Arrays.asList(domainInclude("schema:SpecialAnnouncement")),
+                                Arrays.asList(rangeInclude("schema:GovernmentService")),
                                 null,
                                 null,
-                                List.of(partOf("https://pending.schema.org")), List.of(source("https://github.com/schemaorg/schemaorg/issues/2534"))
+                                Arrays.asList(partOf("https://pending.schema.org")), Arrays.asList(source("https://github.com/schemaorg/schemaorg/issues/2534"))
                         )
                 );
     }

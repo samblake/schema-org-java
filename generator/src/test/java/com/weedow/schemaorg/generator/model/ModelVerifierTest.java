@@ -8,6 +8,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -17,7 +18,7 @@ class ModelVerifierTest {
     @Test
     void equalsContract() {
         EqualsVerifier
-                .forPackage(getClass().getPackageName())
+                .forPackage(getClass().getPackage().getName())
                 .except(Property.class, Type.class)
                 // Skip '*Builder' classes
                 .except(clazz -> clazz.getSimpleName().endsWith("Builder"))
@@ -28,7 +29,7 @@ class ModelVerifierTest {
     void equalsContractProperty() {
         EqualsVerifier
                 .forClass(Property.class)
-                .withPrefabValues(List.class, List.of(mock(Type.class)), List.of(mock(Type.class)))
+                .withPrefabValues(List.class, Arrays.asList(mock(Type.class)), Arrays.asList(mock(Type.class)))
                 .withPrefabValues(Type.class, mock(Type.class), mock(Type.class))
                 .withIgnoredFields("types")
                 .verify();
@@ -39,7 +40,7 @@ class ModelVerifierTest {
         EqualsVerifier
                 .simple()
                 .forClass(Type.class)
-                .withPrefabValues(List.class, List.of(mock(Type.class)), List.of(mock(Type.class)))
+                .withPrefabValues(List.class, Arrays.asList(mock(Type.class)), Arrays.asList(mock(Type.class)))
                 .withPrefabValues(Type.class, mock(Type.class), mock(Type.class))
                 .withIgnoredFields("allProperties", "subTypes")
                 .verify();
@@ -48,7 +49,7 @@ class ModelVerifierTest {
     @Test
     void toStringContract() {
         ToStringVerifier
-                .forPackage(getClass().getPackageName(), false)
+                .forPackage(getClass().getPackage().getName(), false)
                 // Ignore fields that are not present in toString() method, or their toString representation is modified before being added (eg.Supplier fields)
                 .withIgnoredFields(
                         "parents",
@@ -65,7 +66,7 @@ class ModelVerifierTest {
                 // Ignore 'types' field that is not present in toString() method, but just type names in order to prevent recursivity error
                 .withIgnoredFields("types")
                 .verify();
-        Property property = newProperty("id", "name", "fieldName", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", List.of(new Type("id1").setName("type name 1"), new Type("id2").setName("type name 2")), List.of("partOf1", "partOf2"), List.of("source1", "source2"));
+        Property property = newProperty("id", "name", "fieldName", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", Arrays.asList(new Type("id1").setName("type name 1"), new Type("id2").setName("type name 2")), Arrays.asList("partOf1", "partOf2"), Arrays.asList("source1", "source2"));
         Assertions.assertThat(property).hasToString(
                 // @formatter:off
                 "Property(" +
@@ -147,23 +148,23 @@ class ModelVerifierTest {
                 .setName("name")
                 .setJavaType("javaType")
                 .setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry.")
-                .setPartOf(List.of("partOf1", "partOf2"))
-                .setSource(List.of("source1", "source2"))
+                .setPartOf(Arrays.asList("partOf1", "partOf2"))
+                .setSource(Arrays.asList("source1", "source2"))
                 .addEnumerationMember("enumMember1").addEnumerationMember("enumMember2")
                 .addParent(parent1).addParent(new Type("parent2"))
                 .addProperty(newProperty("id1",
                         "name1",
                         "fieldName1",
                         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                        List.of(new Type("id1").setName("type name 1"), new Type("id2").setName("type name 2")),
-                        List.of("partOf1", "partOf2"),
-                        List.of("source1", "source2")
+                        Arrays.asList(new Type("id1").setName("type name 1"), new Type("id2").setName("type name 2")),
+                        Arrays.asList("partOf1", "partOf2"),
+                        Arrays.asList("source1", "source2")
                 ))
                 .addProperty(newProperty("id2",
                         "name2",
                         "fieldName2",
                         null,
-                        List.of(new Type("id1").setName("type name 1")),
+                        Arrays.asList(new Type("id1").setName("type name 1")),
                         null,
                         null
                 ));
@@ -215,7 +216,7 @@ class ModelVerifierTest {
                 id,
                 new Field(name, types),
                 new Accessor(name, description, partOf, source, types),
-                List.of(new Mutator(name, description, partOf, source, () -> "Object", () -> fieldName)),
+                Arrays.asList(new Mutator(name, description, partOf, source, () -> "Object", () -> fieldName)),
                 types
         );
     }

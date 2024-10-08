@@ -16,6 +16,7 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -156,7 +157,7 @@ public class SchemaModelGeneratorMojo extends AbstractMojo {
 
         final Resource resource = new Resource();
         resource.setDirectory(outputDirectory);
-        resource.setExcludes(List.of("**/*.java"));
+        resource.setExcludes(Arrays.asList("**/*.java"));
 
         if (SourcesAndResourcesProcessing.SOURCES_AND_RESOURCES.equals(sourcesAndResourcesProcessing)) {
             getLog().info("Adding the generated java types and generated resources as compiled source root.");

@@ -3,10 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.weedow</groupId>
+        <groupId>uk.co.virginwines</groupId>
         <artifactId>schema-org-parent</artifactId>
-        <version>0.6.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>0.6.1</version>
     </parent>
 
     <artifactId>schema-org-serializer</artifactId>
@@ -46,7 +45,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.weedow</groupId>
+            <groupId>uk.co.virginwines</groupId>
             <artifactId>schema-org-java-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -98,7 +97,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.weedow</groupId>
+                <groupId>uk.co.virginwines</groupId>
                 <artifactId>schema-org-generator-maven-plugin</artifactId>
                 <version>${project.version}</version>
                 <executions>

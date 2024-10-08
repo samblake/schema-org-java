@@ -5,8 +5,15 @@ import com.weedow.schemaorg.generator.model.Type;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import static com.weedow.schemaorg.commons.utils.CollectionUtils.createSet;
 import static org.assertj.core.api.Assertions.entry;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -23,10 +30,10 @@ class SchemaDefinitionFilterImplTest {
         when(property1.getTypes()).thenReturn(Collections.emptyList());
 
         Property property2 = mock(Property.class);
-        Type stringType = type("schema:String", Collections.emptySet(), List.of(dataType));
-        when(property2.getTypes()).thenReturn(List.of(stringType));
+        Type stringType = type("schema:String", Collections.emptySet(), Arrays.asList(dataType));
+        when(property2.getTypes()).thenReturn(Arrays.asList(stringType));
 
-        Type thingType = type("schema:Thing", Set.of(property1, property2), Collections.emptyList());
+        Type thingType = type("schema:Thing", createSet(property1, property2), Collections.emptyList());
 
         Type unknownType = mock(Type.class);
 
@@ -35,7 +42,7 @@ class SchemaDefinitionFilterImplTest {
         schemaDefinitions.put("schema:Thing", thingType);
         schemaDefinitions.put("unknown", unknownType);
 
-        List<String> modelIds = List.of("schema:DataType", "schema:Thing");
+        List<String> modelIds = Arrays.asList("schema:DataType", "schema:Thing");
 
         Map<String, Type> result = schemaDefinitionFilter.filter(schemaDefinitions, modelIds);
 

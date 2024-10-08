@@ -29,6 +29,8 @@ import java.time.Month;
 import java.util.List;
 import java.util.Map;
 
+import static com.weedow.schemaorg.commons.utils.CollectionUtils.createMap;
+
 @TestWithResources
 class JsonLdDeserializerImplTest {
 
@@ -56,7 +58,7 @@ class JsonLdDeserializerImplTest {
 
     @Test
     void deserialize_all_data_types(@GivenTextResource("/data/Example.json") String json) throws JsonLdException {
-        JsonLdDeserializer jsonLdDeserializer = new JsonLdDeserializerImpl(Map.of("Example", Example.class));
+        JsonLdDeserializer jsonLdDeserializer = new JsonLdDeserializerImpl(createMap("Example", Example.class));
         Example result = jsonLdDeserializer.deserialize(json);
 
         Assertions.assertThat(result)

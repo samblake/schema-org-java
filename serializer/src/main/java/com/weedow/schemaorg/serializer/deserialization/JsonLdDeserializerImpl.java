@@ -107,7 +107,7 @@ public class JsonLdDeserializerImpl implements JsonLdDeserializer {
     @Override
     public <T extends JsonLdNode> List<T> deserializeList(String json) throws JsonLdException {
         try {
-            List<T> obj = objectMapper.readValue(json, new TypeReference<>() {
+            List<T> obj = objectMapper.readValue(json, new TypeReference<List<T>>() {
             });
 
             obj = postProcessor.process(obj);

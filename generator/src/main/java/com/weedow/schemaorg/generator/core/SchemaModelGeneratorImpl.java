@@ -1,7 +1,12 @@
 package com.weedow.schemaorg.generator.core;
 
 import com.weedow.schemaorg.commons.generator.GeneratorConstants;
-import com.weedow.schemaorg.commons.model.*;
+import com.weedow.schemaorg.commons.model.JsonLdDataType;
+import com.weedow.schemaorg.commons.model.JsonLdFieldTypes;
+import com.weedow.schemaorg.commons.model.JsonLdNode;
+import com.weedow.schemaorg.commons.model.JsonLdNodeImpl;
+import com.weedow.schemaorg.commons.model.JsonLdSubTypes;
+import com.weedow.schemaorg.commons.model.JsonLdTypeName;
 import com.weedow.schemaorg.generator.core.copy.CopyService;
 import com.weedow.schemaorg.generator.core.filter.SchemaDefinitionFilter;
 import com.weedow.schemaorg.generator.core.stream.StreamService;
@@ -16,7 +21,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class SchemaModelGeneratorImpl implements SchemaModelGenerator {
@@ -114,7 +123,7 @@ public class SchemaModelGeneratorImpl implements SchemaModelGenerator {
         try (OutputStream outputStream = new FileOutputStream(outputFolder.resolve(GeneratorConstants.SCHEMA_ORG_PROP_FILENAME).toFile())) {
             Properties properties = new Properties();
 
-            properties.put(GeneratorConstants.SCHEMA_ORG_PROP_COMMONS, JsonLdNode.class.getPackageName());
+            properties.put(GeneratorConstants.SCHEMA_ORG_PROP_COMMONS, JsonLdNode.class.getPackage().getName());
             properties.put(GeneratorConstants.SCHEMA_ORG_PROP_MODEL, modelPackage);
             properties.put(GeneratorConstants.SCHEMA_ORG_PROP_MODEL_IMPL, modelImplPackage);
             properties.put(GeneratorConstants.SCHEMA_ORG_PROP_DATA_TYPE, dataTypePackage);
@@ -126,7 +135,7 @@ public class SchemaModelGeneratorImpl implements SchemaModelGenerator {
     }
 
     private void copyJavaFile(Class<?> clazz) {
-        copyService.copy(clazz, options.resolvePath(clazz.getPackageName()));
+        copyService.copy(clazz, options.resolvePath(clazz.getPackage().getName()));
     }
 
     private void generateAbstractDataType(Path dataTypeFolder, String dataTypePackage, Type type) {

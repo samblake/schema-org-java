@@ -14,13 +14,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.*;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.comment;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.label;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.partOf;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.source;
+import static com.weedow.schemaorg.generator.model.handler.ModelHandlerTestUtils.subClassOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -49,9 +54,9 @@ class ClassModelHandlerImplTest {
         when(graphItem.getId()).thenReturn("schema:MyType");
         when(graphItem.getLabel()).thenReturn(label("en", "MyType"));
         when(graphItem.getComment()).thenReturn(comment("en", "This is my Type"));
-        when(graphItem.getPartOf()).thenReturn(List.of(partOf("https://pending.schema.org")));
-        when(graphItem.getSource()).thenReturn(List.of(source("https://github.com/schemaorg/schemaorg/issues/2373")));
-        when(graphItem.getSubClassOf()).thenReturn(List.of(subClassOf("rdfs:Class"), subClassOf("schema:Parent")));
+        when(graphItem.getPartOf()).thenReturn(Arrays.asList(partOf("https://pending.schema.org")));
+        when(graphItem.getSource()).thenReturn(Arrays.asList(source("https://github.com/schemaorg/schemaorg/issues/2373")));
+        when(graphItem.getSubClassOf()).thenReturn(Arrays.asList(subClassOf("rdfs:Class"), subClassOf("schema:Parent")));
 
         modelHandler.handle(schemaDefinitions, graphItem);
         Assertions.assertThat(schemaDefinitions).isNotEmpty().containsOnlyKeys("schema:MyType", "schema:Parent");
@@ -67,10 +72,10 @@ class ClassModelHandlerImplTest {
                 .containsExactly(
                         "schema:MyType", null, "MyType", "This is my Type",
                         Collections.emptySet(), Collections.emptySet(),
-                        List.of(schemaDefinitions.get("schema:Parent")),
+                        Arrays.asList(schemaDefinitions.get("schema:Parent")),
                         "java:JsonLdNode", JsonLdNode.class, JsonLdNodeImpl.class,
                         false, Collections.emptyList(),
-                        List.of("https://pending.schema.org"), List.of("https://github.com/schemaorg/schemaorg/issues/2373")
+                        Arrays.asList("https://pending.schema.org"), Arrays.asList("https://github.com/schemaorg/schemaorg/issues/2373")
                 );
         Assertions.assertThat(schemaDefinitions.get("schema:Parent"))
                 .extracting(
@@ -91,12 +96,12 @@ class ClassModelHandlerImplTest {
 
     private static Stream<Arguments> supports() {
         return Stream.of(
-                Arguments.of(null, List.of("rdfs:Class", "rdfs:OtherType"), null, true),
-                Arguments.of("schema:MyType", List.of("rdfs:Class", "rdfs:OtherType"), null, true),
-                Arguments.of("schema:MyType", List.of("rdfs:Class", "rdfs:OtherType"), List.of(subClassOf("schema:SubClass")), true),
-                Arguments.of("schema:DataType", List.of("rdfs:Class", "schema:DataType"), null, false),
-                Arguments.of("schema:MyType", List.of("rdfs:Class", "schema:DataType"), null, false),
-                Arguments.of("schema:MyType", List.of("rdfs:Class", "rdfs:OtherType"), List.of(subClassOf("schema:Text")), false)
+                Arguments.of(null, Arrays.asList("rdfs:Class", "rdfs:OtherType"), null, true),
+                Arguments.of("schema:MyType", Arrays.asList("rdfs:Class", "rdfs:OtherType"), null, true),
+                Arguments.of("schema:MyType", Arrays.asList("rdfs:Class", "rdfs:OtherType"), Arrays.asList(subClassOf("schema:SubClass")), true),
+                Arguments.of("schema:DataType", Arrays.asList("rdfs:Class", "schema:DataType"), null, false),
+                Arguments.of("schema:MyType", Arrays.asList("rdfs:Class", "schema:DataType"), null, false),
+                Arguments.of("schema:MyType", Arrays.asList("rdfs:Class", "rdfs:OtherType"), Arrays.asList(subClassOf("schema:Text")), false)
         );
     }
 

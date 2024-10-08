@@ -13,19 +13,32 @@ import com.weedow.schemaorg.generator.template.TemplateService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.mockito.Mockito.*;
+import static com.weedow.schemaorg.commons.utils.CollectionUtils.createMap;
+import static com.weedow.schemaorg.commons.utils.CollectionUtils.createSet;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SchemaModelGeneratorImplTest {
@@ -73,7 +86,7 @@ class SchemaModelGeneratorImplTest {
         when(type.getId()).thenReturn("schema:DataType");
         when(type.getName()).thenReturn("DataType");
 
-        Map<String, Type> filteredSchemaDefinitions = Map.of("schema:DataType", type);
+        Map<String, Type> filteredSchemaDefinitions = createMap("schema:DataType", type);
         when(schemaDefinitionFilter.filter(schemaDefinitions, null)).thenReturn(filteredSchemaDefinitions);
         when(streamService.stream(filteredSchemaDefinitions)).thenReturn(filteredSchemaDefinitions.values().stream());
 
@@ -98,7 +111,7 @@ class SchemaModelGeneratorImplTest {
         when(type.getName()).thenReturn("Boolean");
         when(type.getProperties()).thenReturn(Collections.emptySet());
 
-        Map<String, Type> filteredSchemaDefinitions = Map.of("schema:Boolean", type);
+        Map<String, Type> filteredSchemaDefinitions = createMap("schema:Boolean", type);
         when(schemaDefinitionFilter.filter(schemaDefinitions, null)).thenReturn(filteredSchemaDefinitions);
         when(streamService.stream(filteredSchemaDefinitions)).thenReturn(filteredSchemaDefinitions.values().stream());
 
@@ -112,7 +125,7 @@ class SchemaModelGeneratorImplTest {
         verify(templateService).apply(
                 "templates/data_type",
                 options.getDataTypeFolder().resolve("Boolean.java"),
-                new Context(type, options.getDataTypePackage(), Set.of(JsonLdTypeName.class.getName()))
+                new Context(type, options.getDataTypePackage(), createSet(JsonLdTypeName.class.getName()))
         );
     }
 
@@ -124,10 +137,10 @@ class SchemaModelGeneratorImplTest {
         final Type type = mock(Type.class);
         when(type.getId()).thenReturn("schema:XPathType");
         when(type.getName()).thenReturn("XPathType");
-        when(type.getParents()).thenReturn(List.of(parent));
+        when(type.getParents()).thenReturn(Arrays.asList(parent));
         when(type.getProperties()).thenReturn(Collections.emptySet());
 
-        Map<String, Type> filteredSchemaDefinitions = Map.of("schema:XPathType", type);
+        Map<String, Type> filteredSchemaDefinitions = createMap("schema:XPathType", type);
         when(schemaDefinitionFilter.filter(schemaDefinitions, null)).thenReturn(filteredSchemaDefinitions);
         when(streamService.stream(filteredSchemaDefinitions)).thenReturn(filteredSchemaDefinitions.values().stream());
 
@@ -141,7 +154,7 @@ class SchemaModelGeneratorImplTest {
         verify(templateService).apply(
                 "templates/data_type",
                 options.getDataTypeFolder().resolve("XPathType.java"),
-                new Context(type, options.getDataTypePackage(), Set.of(JsonLdTypeName.class.getName()))
+                new Context(type, options.getDataTypePackage(), createSet(JsonLdTypeName.class.getName()))
         );
     }
 
@@ -151,10 +164,10 @@ class SchemaModelGeneratorImplTest {
         when(type.getId()).thenReturn("schema:ActionStatusType");
         when(type.getName()).thenReturn("ActionStatusType");
         when(type.isEnumerationType()).thenReturn(true);
-        //when(type.getEnumerationMembers()).thenReturn(List.of("PotentialActionStatus", "ActiveActionStatus", "FailedActionStatus", "CompletedActionStatus"));
+        //when(type.getEnumerationMembers()).thenReturn(Arrays.asList("PotentialActionStatus", "ActiveActionStatus", "FailedActionStatus", "CompletedActionStatus"));
         when(type.getProperties()).thenReturn(Collections.emptySet());
 
-        Map<String, Type> filteredSchemaDefinitions = Map.of("schema:ActionStatusType", type);
+        Map<String, Type> filteredSchemaDefinitions = createMap("schema:ActionStatusType", type);
         when(schemaDefinitionFilter.filter(schemaDefinitions, null)).thenReturn(filteredSchemaDefinitions);
         when(streamService.stream(filteredSchemaDefinitions)).thenReturn(filteredSchemaDefinitions.values().stream());
 
@@ -168,12 +181,12 @@ class SchemaModelGeneratorImplTest {
         verify(templateService).apply(
                 "templates/type_interface",
                 options.getModelFolder().resolve("ActionStatusType.java"),
-                new Context(type, options.getModelPackage(), Set.of(List.class.getName()))
+                new Context(type, options.getModelPackage(), createSet(List.class.getName()))
         );
         verify(templateService).apply(
                 "templates/type_enumeration",
                 options.getModelImplFolder().resolve("ActionStatusTypeEnum.java"),
-                new Context(type, options.getModelImplPackage(), Set.of("org.schema.model.ActionStatusType", JsonLdTypeName.class.getName(), List.class.getName()))
+                new Context(type, options.getModelImplPackage(), createSet("org.schema.model.ActionStatusType", JsonLdTypeName.class.getName(), List.class.getName()))
         );
     }
 
@@ -184,7 +197,7 @@ class SchemaModelGeneratorImplTest {
         when(type.getName()).thenReturn("Thing");
         when(type.getProperties()).thenReturn(Collections.emptySet());
 
-        Map<String, Type> filteredSchemaDefinitions = Map.of("schema:Thing", type);
+        Map<String, Type> filteredSchemaDefinitions = createMap("schema:Thing", type);
         when(schemaDefinitionFilter.filter(schemaDefinitions, null)).thenReturn(filteredSchemaDefinitions);
         when(streamService.stream(filteredSchemaDefinitions)).thenReturn(filteredSchemaDefinitions.values().stream());
 
@@ -193,12 +206,12 @@ class SchemaModelGeneratorImplTest {
         verify(templateService).apply(
                 "templates/type_interface",
                 options.getModelFolder().resolve("Thing.java"),
-                new Context(type, options.getModelPackage(), Set.of(List.class.getName()))
+                new Context(type, options.getModelPackage(), createSet(List.class.getName()))
         );
         verify(templateService).apply(
                 "templates/type_implementation",
                 options.getModelImplFolder().resolve("ThingImpl.java"),
-                new Context(type, options.getModelImplPackage(), Set.of("org.schema.model.Thing", JsonLdTypeName.class.getName(), List.class.getName()))
+                new Context(type, options.getModelImplPackage(), createSet("org.schema.model.Thing", JsonLdTypeName.class.getName(), List.class.getName()))
         );
     }
 
@@ -219,7 +232,7 @@ class SchemaModelGeneratorImplTest {
         final String modelPackage = options.getModelPackage();
         final String modelImplPackage = options.getModelImplPackage();
 
-        Map<String, Type> filteredSchemaDefinitions = Map.of("schema:Thing", type);
+        Map<String, Type> filteredSchemaDefinitions = createMap("schema:Thing", type);
         when(schemaDefinitionFilter.filter(schemaDefinitions, null)).thenReturn(filteredSchemaDefinitions);
         when(streamService.stream(filteredSchemaDefinitions)).thenReturn(filteredSchemaDefinitions.values().stream());
 
@@ -228,12 +241,12 @@ class SchemaModelGeneratorImplTest {
         verify(successHandler).onSuccess(
                 "templates/type_interface",
                 modelFolder.resolve("Thing.java"),
-                new Context(type, modelPackage, Set.of(List.class.getName()))
+                new Context(type, modelPackage, createSet(List.class.getName()))
         );
         verify(successHandler).onSuccess(
                 "templates/type_implementation",
                 modelImplFolder.resolve("ThingImpl.java"),
-                new Context(type, modelImplPackage, Set.of("org.schema.model.Thing", JsonLdTypeName.class.getName(), List.class.getName()))
+                new Context(type, modelImplPackage, createSet("org.schema.model.Thing", JsonLdTypeName.class.getName(), List.class.getName()))
         );
 
         verifyNoInteractions(errorHandler);
@@ -251,7 +264,7 @@ class SchemaModelGeneratorImplTest {
         when(type.getName()).thenReturn("Thing");
         when(type.getProperties()).thenReturn(Collections.emptySet());
 
-        Map<String, Type> filteredSchemaDefinitions = Map.of("schema:Thing", type);
+        Map<String, Type> filteredSchemaDefinitions = createMap("schema:Thing", type);
         when(schemaDefinitionFilter.filter(schemaDefinitions, null)).thenReturn(filteredSchemaDefinitions);
         when(streamService.stream(filteredSchemaDefinitions)).thenReturn(filteredSchemaDefinitions.values().stream());
 
@@ -264,13 +277,13 @@ class SchemaModelGeneratorImplTest {
         doThrow(ioException1).when(templateService).apply(
                 "templates/type_interface",
                 modelFolder.resolve("Thing.java"),
-                new Context(type, modelPackage, Set.of(List.class.getName()))
+                new Context(type, modelPackage, createSet(List.class.getName()))
         );
         final IOException ioException2 = new IOException();
         doThrow(ioException2).when(templateService).apply(
                 "templates/type_implementation",
                 modelImplFolder.resolve("ThingImpl.java"),
-                new Context(type, modelImplPackage, Set.of("org.schema.model.Thing", JsonLdTypeName.class.getName(), List.class.getName()))
+                new Context(type, modelImplPackage, createSet("org.schema.model.Thing", JsonLdTypeName.class.getName(), List.class.getName()))
         );
 
         schemaModelGenerator.generate();
@@ -278,13 +291,13 @@ class SchemaModelGeneratorImplTest {
         verify(errorHandler).onError(
                 "templates/type_interface",
                 modelFolder.resolve("Thing.java"),
-                new Context(type, modelPackage, Set.of(List.class.getName())),
+                new Context(type, modelPackage, createSet(List.class.getName())),
                 ioException1
         );
         verify(errorHandler).onError(
                 "templates/type_implementation",
                 modelImplFolder.resolve("ThingImpl.java"),
-                new Context(type, modelImplPackage, Set.of("org.schema.model.Thing", JsonLdTypeName.class.getName(), List.class.getName())),
+                new Context(type, modelImplPackage, createSet("org.schema.model.Thing", JsonLdTypeName.class.getName(), List.class.getName())),
                 ioException2
         );
 
@@ -354,7 +367,7 @@ class SchemaModelGeneratorImplTest {
         when(type.getName()).thenReturn("Boolean");
         when(type.getProperties()).thenReturn(Collections.emptySet());
 
-        Map<String, Type> filteredSchemaDefinitions = Map.of("schema:Boolean", type);
+        Map<String, Type> filteredSchemaDefinitions = createMap("schema:Boolean", type);
         when(schemaDefinitionFilter.filter(schemaDefinitions, null)).thenReturn(filteredSchemaDefinitions);
         when(streamService.stream(filteredSchemaDefinitions)).thenReturn(filteredSchemaDefinitions.values().stream());
 
@@ -365,7 +378,8 @@ class SchemaModelGeneratorImplTest {
         verify(templateService).apply(
                 "templates/data_type",
                 options.getDataTypeFolder().resolve("Boolean.java"),
-                new Context(type, options.getDataTypePackage(), Set.of(JsonLdTypeName.class.getName()))
+                new Context(type, options.getDataTypePackage(), createSet(JsonLdTypeName.class.getName()))
         );
     }
+
 }

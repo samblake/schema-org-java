@@ -253,7 +253,7 @@ class JsonLdSerializerImplTest {
         thing.addDescription(Text.of("This is my thing."));
         thing.addUrl(URL.of(new java.net.URL("https://github.com/Kobee1203/schema-org-java")));
 
-        String result = jsonLdSerializer.serialize(List.of(thing));
+        String result = jsonLdSerializer.serialize(Arrays.asList(thing));
 
         assertThatJson(result).isEqualTo(expected);
     }

@@ -1,6 +1,13 @@
 package com.weedow.schemaorg.generator.model.handler;
 
-import com.weedow.schemaorg.generator.model.jsonld.*;
+import com.weedow.schemaorg.generator.model.jsonld.Comment;
+import com.weedow.schemaorg.generator.model.jsonld.DomainIncludes;
+import com.weedow.schemaorg.generator.model.jsonld.Label;
+import com.weedow.schemaorg.generator.model.jsonld.PartOf;
+import com.weedow.schemaorg.generator.model.jsonld.RangeIncludes;
+import com.weedow.schemaorg.generator.model.jsonld.Source;
+import com.weedow.schemaorg.generator.model.jsonld.SubClassOf;
+import com.weedow.schemaorg.generator.model.jsonld.SupersededBy;
 
 public final class ModelHandlerTestUtils {
 

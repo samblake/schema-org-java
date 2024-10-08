@@ -5,21 +5,20 @@
  */
 package org.schema.model.impl;
 
-import org.schema.model.Class;
-import org.schema.model.Property;
-import org.schema.model.Enumeration;
-import org.schema.model.Action;
-import org.schema.model.datatype.URL;
-import org.schema.model.CreativeWork;
-import org.schema.model.Event;
-import org.schema.model.datatype.Text;
-import org.schema.model.PropertyValue;
-import org.schema.model.ImageObject;
-import org.schema.model.Thing;
-import com.weedow.schemaorg.commons.model.JsonLdTypeName;
 import com.weedow.schemaorg.commons.model.JsonLdFieldTypes;
+import com.weedow.schemaorg.commons.model.JsonLdTypeName;
+import org.schema.model.Action;
+import org.schema.model.Class;
+import org.schema.model.CreativeWork;
+import org.schema.model.Enumeration;
+import org.schema.model.Event;
+import org.schema.model.ImageObject;
+import org.schema.model.Property;
+import org.schema.model.PropertyValue;
+import org.schema.model.datatype.Text;
+import org.schema.model.datatype.URL;
+
 import java.util.List;
-import org.schema.model.Intangible;
 
 /**
  * A class, also often called a 'Type'; equivalent to rdfs:Class.

@@ -5,7 +5,12 @@ import com.weedow.schemaorg.commons.model.JsonLdTypeName;
 import com.weedow.schemaorg.generator.model.Type;
 import com.weedow.schemaorg.generator.model.utils.ModelUtils;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public final class SchemaGeneratorUtils {

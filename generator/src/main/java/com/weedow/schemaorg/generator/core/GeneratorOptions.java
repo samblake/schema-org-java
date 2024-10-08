@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 public final class GeneratorOptions {
 
-    private Path outputFolder = Path.of("target", "generated-sources", "schemaorg");
+    private Path outputFolder = Paths.get("target", "generated-sources", "schemaorg");
     private String modelPackage = "org.schema.model";
     private String modelImplPackage = "org.schema.model.impl";
     private String dataTypePackage = "org.schema.model.datatype";
@@ -54,7 +55,7 @@ public final class GeneratorOptions {
      * @return The resolved path
      */
     public Path resolvePath(String packageToResolve) {
-        return outputFolder.resolve(Path.of("", packageToResolve.split("\\.")));
+        return outputFolder.resolve(Paths.get("", packageToResolve.split("\\.")));
     }
 
     public GeneratorOptions addSuccessHandler(SuccessHandler successHandler) {

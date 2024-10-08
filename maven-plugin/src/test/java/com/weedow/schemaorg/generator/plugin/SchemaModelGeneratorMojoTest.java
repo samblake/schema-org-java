@@ -15,10 +15,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import static com.weedow.schemaorg.commons.utils.CollectionUtils.createSet;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,7 +32,7 @@ class SchemaModelGeneratorMojoTest {
     private static final String MODEL_PACKAGE = "org.schema.model";
     private static final String MODEL_IMPL_PACKAGE = "org.schema.model.impl";
     private static final String DATA_TYPE_PACKAGE = "org.schema.model.datatype";
-    private static final List<String> MODELS = List.of("Hotel", "Thing");
+    private static final List<String> MODELS = Arrays.asList("Hotel", "Thing");
     private static final boolean SKIP = false;
     private static final SourcesAndResourcesProcessing SOURCES_AND_RESOURCES_PROCESSING = SourcesAndResourcesProcessing.SOURCES_AND_RESOURCES;
 
@@ -75,7 +77,7 @@ class SchemaModelGeneratorMojoTest {
         Artifact artifact = mock(Artifact.class);
         when(artifact.getGroupId()).thenReturn("com.weedow");
         when(artifact.getArtifactId()).thenReturn("schema-org-java-commons");
-        when(project.getArtifacts()).thenReturn(Set.of(artifact));
+        when(project.getArtifacts()).thenReturn(createSet(artifact));
 
         SchemaModelGeneratorBuilder schemaModelGeneratorBuilder = mockSchemaModelGeneratorBuilder(false);
 

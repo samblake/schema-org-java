@@ -5,21 +5,20 @@
  */
 package org.schema.model.impl;
 
-import org.schema.model.datatype.Text;
-import org.schema.model.Review;
-import org.schema.model.ImageObject;
-import org.schema.model.datatype.URL;
-import org.schema.model.AggregateRating;
+import com.weedow.schemaorg.commons.model.JsonLdFieldTypes;
+import com.weedow.schemaorg.commons.model.JsonLdTypeName;
 import org.schema.model.Action;
+import org.schema.model.AggregateRating;
+import org.schema.model.Brand;
 import org.schema.model.CreativeWork;
 import org.schema.model.Event;
+import org.schema.model.ImageObject;
 import org.schema.model.PropertyValue;
-import org.schema.model.Thing;
-import com.weedow.schemaorg.commons.model.JsonLdTypeName;
-import com.weedow.schemaorg.commons.model.JsonLdFieldTypes;
+import org.schema.model.Review;
+import org.schema.model.datatype.Text;
+import org.schema.model.datatype.URL;
+
 import java.util.List;
-import org.schema.model.Intangible;
-import org.schema.model.Brand;
 
 /**
  * A brand is a name used by an organization or business person for labeling a product, product group, or similar.

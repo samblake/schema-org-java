@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,7 @@ class EnumerationMemberModelHandlerImplTest {
         Map<String, Type> schemaDefinitions = new HashMap<>();
 
         GraphItem graphItem = mock(GraphItem.class);
-        when(graphItem.getTypes()).thenReturn(List.of("schema:MedicalImagingTechnique"));
+        when(graphItem.getTypes()).thenReturn(Arrays.asList("schema:MedicalImagingTechnique"));
         when(graphItem.getLabel()).thenReturn(label("en", "Radiography"));
 
         modelHandler.handle(schemaDefinitions, graphItem);
@@ -59,7 +60,7 @@ class EnumerationMemberModelHandlerImplTest {
                         "schema:MedicalImagingTechnique", null, null, null,
                         Collections.emptySet(), Collections.emptySet(),
                         Collections.emptyList(),
-                        false /* Parent is not added */, List.of("Radiography"),
+                        false /* Parent is not added */, Arrays.asList("Radiography"),
                         Collections.emptyList(), Collections.emptyList()
                 );
     }
@@ -69,7 +70,7 @@ class EnumerationMemberModelHandlerImplTest {
         Map<String, Type> schemaDefinitions = new HashMap<>();
 
         GraphItem graphItem = mock(GraphItem.class);
-        when(graphItem.getTypes()).thenReturn(List.of("schema:MedicalImagingTechnique", "schema:MedicalSpecialty"));
+        when(graphItem.getTypes()).thenReturn(Arrays.asList("schema:MedicalImagingTechnique", "schema:MedicalSpecialty"));
         when(graphItem.getLabel()).thenReturn(label("en", "Radiography"));
 
         modelHandler.handle(schemaDefinitions, graphItem);
@@ -87,7 +88,7 @@ class EnumerationMemberModelHandlerImplTest {
                         "schema:MedicalImagingTechnique", null, null, null,
                         Collections.emptySet(), Collections.emptySet(),
                         Collections.emptyList(),
-                        false /* Parent is not added */, List.of("Radiography"),
+                        false /* Parent is not added */, Arrays.asList("Radiography"),
                         Collections.emptyList(), Collections.emptyList()
                 );
         Assertions.assertThat(schemaDefinitions.get("schema:MedicalSpecialty"))
@@ -102,18 +103,18 @@ class EnumerationMemberModelHandlerImplTest {
                         "schema:MedicalSpecialty", null, null, null,
                         Collections.emptySet(), Collections.emptySet(),
                         Collections.emptyList(),
-                        false /* Parent is not added */, List.of("Radiography"),
+                        false /* Parent is not added */, Arrays.asList("Radiography"),
                         Collections.emptyList(), Collections.emptyList()
                 );
     }
 
     private static Stream<Arguments> supports() {
         return Stream.of(
-                Arguments.of(List.of("schema:MedicalImagingTechnique"), true),
-                Arguments.of(List.of("schema:MedicalImagingTechnique", "schema:MedicalSpecialty"), true),
-                Arguments.of(List.of("schema:MedicalImagingTechnique", "rdfs:Class"), false), // types don't contain only 'schema:*'
-                Arguments.of(List.of("rdfs:MedicalImagingTechnique"), false), // type not started with "schema:"
-                Arguments.of(List.of("schema:DataType"), false) // "schema:DataType" not allowed
+                Arguments.of(Arrays.asList("schema:MedicalImagingTechnique"), true),
+                Arguments.of(Arrays.asList("schema:MedicalImagingTechnique", "schema:MedicalSpecialty"), true),
+                Arguments.of(Arrays.asList("schema:MedicalImagingTechnique", "rdfs:Class"), false), // types don't contain only 'schema:*'
+                Arguments.of(Arrays.asList("rdfs:MedicalImagingTechnique"), false), // type not started with "schema:"
+                Arguments.of(Arrays.asList("schema:DataType"), false) // "schema:DataType" not allowed
         );
     }
 }
